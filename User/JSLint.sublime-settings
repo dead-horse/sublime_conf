@@ -1,0 +1,6 @@
+{
+  "ignore_errors": [
+    "'RUN_MODE' was used before it was defined."
+  ],
+  "debug": true
+}

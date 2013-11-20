@@ -1,0 +1,22 @@
+<snippet>
+  <content><![CDATA[
+/*!
+ * ${1:project} - ${2:module}
+ * Copyright(c) 2012 Taobao.com
+ * Author: suqian.yf <suqian.yf@taobao.com>
+ */
+
+"use strict";
+
+/**
+ * Module dependencies.
+ */
+
+var ${3:varname} = require('${4:modulename}');
+
+]]></content>
+  <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+  <tabTrigger>moduleheader_taobao</tabTrigger>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <!-- <scope>source.python</scope> -->
+</snippet>
