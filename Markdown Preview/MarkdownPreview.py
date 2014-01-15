@@ -12,7 +12,16 @@ import time
 import traceback
 
 
-if sublime.version() >= '3000':
+def is_ST3():
+    ''' check if ST3 based on python version '''
+    version = sys.version_info
+    if isinstance(version, tuple):
+        version = version[0]
+    elif getattr(version, 'major', None):
+        version = version.major
+    return (version >= 3)
+
+if is_ST3():
     from . import desktop
     from . import markdown2
     from . import markdown
@@ -25,7 +34,7 @@ if sublime.version() >= '3000':
         import urllib.request
         return urllib.request.Request(url, data=data, headers=headers, method='POST')
 
-else: # ST2
+else:
     import desktop
     import markdown2
     import markdown
@@ -41,15 +50,21 @@ def getTempMarkdownPreviewPath(view):
     settings = sublime.load_settings('MarkdownPreview.sublime-settings')
 
     tmp_filename = '%s.html' % view.id()
+    tmp_dir = tempfile.gettempdir();
     if settings.get('path_tempfile'):
-        tmp_fullpath = os.path.join(settings.get('path_tempfile'), tmp_filename)
-    else:
-        tmp_fullpath = os.path.join(tempfile.gettempdir(), tmp_filename)
+        if os.path.isabs(settings.get('path_tempfile')): #absolute path or not
+            tmp_dir = settings.get('path_tempfile')
+        else:
+            tmp_dir = os.path.join(os.path.dirname(view.file_name()), settings.get('path_tempfile'))
+
+    if not os.path.isdir(tmp_dir): #create dir if not exsits
+        os.makedirs(tmp_dir)
+
+    tmp_fullpath = os.path.join(tmp_dir, tmp_filename)
     return tmp_fullpath
 
 def save_utf8(filename, text):
-    v = sublime.version()
-    if v >= '3000':
+    if is_ST3():
         f = open(filename, 'w', encoding='utf-8')
         f.write(text)
         f.close()
@@ -59,48 +74,32 @@ def save_utf8(filename, text):
         f.close()
 
 def load_utf8(filename):
-    v = sublime.version()
-    if v >= '3000':
+    if is_ST3():
         return open(filename, 'r', encoding='utf-8').read()
     else: # 2.x
         return open(filename, 'r').read().decode('utf-8')
 
 def load_resource(name):
     ''' return file contents for files within the package root folder '''
-    v = sublime.version()
-    if v >= '3000':
-        filename = '/'.join(['Packages', INSTALLED_DIRECTORY, name])
-        try:
+
+    try:
+        if is_ST3():
+            filename = '/'.join(['Packages', INSTALLED_DIRECTORY, name])
             return sublime.load_resource(filename)
-        except:
-            print("Error while load_resource('%s')" % filename)
-            traceback.print_exc()
-            return ''
-            
-    else: # 2.x
-        filename = os.path.join(sublime.packages_path(), INSTALLED_DIRECTORY, name)
-
-        if not os.path.isfile(filename):
-            print('Error while lookup resources file: %s', name)
-            return ''
-
-        try:
-            return open(filename, 'r').read().decode('utf-8')
-        except:
-            print("Error while load_resource('%s')" % filename)
-            traceback.print_exc()
-            return ''
+        else:
+            filename = os.path.join(sublime.packages_path(), INSTALLED_DIRECTORY, name)
+            if not os.path.isfile(filename):
+                print('Error while lookup resources file: %s', name)
+                return ''
+            return load_utf8(filename)
+    except:
+        print("Error while load_resource('%s')" % filename)
+        traceback.print_exc()
+        return ''
 
 def exists_resource(resource_file_path):
-    if sublime.version() >= '3000':
-        try:
-            sublime.load_resource(resource_file_path)
-            return True
-        except:
-            return False
-    else:
-        filename = os.path.join(os.path.dirname(sublime.packages_path()), resource_file_path)
-        return os.path.isfile(filename)
+    filename = os.path.join(os.path.dirname(sublime.packages_path()), resource_file_path)
+    return os.path.isfile(filename)
 
 def new_scratch_view(window, text):
     ''' create a new scratch view and paste text content
@@ -109,7 +108,7 @@ def new_scratch_view(window, text):
 
     new_view = window.new_file()
     new_view.set_scratch(True)
-    if sublime.version() >= '3000':
+    if is_ST3():
         new_view.run_command('append', {
             'characters': text,
         })
@@ -284,15 +283,27 @@ class MarkdownCompiler():
     def curl_convert(self, data):
         try:
             import subprocess
-            shell_safe_json = data.decode('utf-8').replace('\"', '\\"').replace("`", "\\`")
+
+            # It looks like the text does NOT need to be escaped and
+            # surrounded with double quotes.
+            # Tested in ubuntu 13.10, python 2.7.5+
+            shell_safe_json = data.decode('utf-8')
             curl_args = [
                 'curl',
                 '-H',
-                '"Content-Type: application/json"',
+                'Content-Type: application/json',
                 '-d',
-                '"' + shell_safe_json + '"',
+                shell_safe_json,
                 'https://api.github.com/markdown'
             ]
+
+            github_oauth_token = self.settings.get('github_oauth_token')
+            if github_oauth_token:
+                curl_args[1:1] = [
+                    '-u',
+                    github_oauth_token
+                ]
+
             markdown_html = subprocess.Popen(curl_args, stdout=subprocess.PIPE).communicate()[0].decode('utf-8')
             return markdown_html
         except subprocess.CalledProcessError as e:
@@ -355,14 +366,12 @@ class MarkdownCompiler():
                 for marker in toc_markers:
                     markdown_html = markdown_html.replace(marker, toc_html)
 
-            # postprocess the html from internal parser
-            markdown_html = self.postprocessor(markdown_html)
         else:
             sublime.status_message('converting markdown with Python markdown...')
             config_extensions = self.get_config_extensions(['extra', 'toc'])
             markdown_html = markdown.markdown(markdown_text, extensions=config_extensions)
-            markdown_html = self.postprocessor(markdown_html)            
 
+        markdown_html = self.postprocessor(markdown_html)
         return markdown_html
 
     def get_title(self):
@@ -448,14 +457,14 @@ class MarkdownPreviewCommand(sublime_plugin.TextCommand):
 class MarkdownBuildCommand(sublime_plugin.WindowCommand):
     def init_panel(self):
         if not hasattr(self, 'output_view'):
-            if sublime.version() >= '3000':
+            if is_ST3():
                 self.output_view = self.window.create_output_panel("markdown")
             else:
                 self.output_view = self.window.get_output_panel("markdown")
 
     def puts(self, message):
         message = message + '\n'
-        if sublime.version() >= '3000':
+        if is_ST3():
             self.output_view.run_command('append', {'characters': message, 'force': True, 'scroll_to_end': True})
         else:
             selection_was_at_end = (len(self.output_view.sel()) == 1
