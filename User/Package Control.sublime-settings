@@ -4,19 +4,11 @@
 	[
 		"All Autocomplete",
 		"BracketHighlighter",
-		"Clipboard History",
 		"DocBlockr",
 		"GBK Encoding Support",
-		"Go Build",
-		"GoSublime",
-		"jQuery",
 		"JsBDD",
 		"JsFormat",
-		"JSHint",
-		"Markdown Preview",
-		"MarkdownBuild",
 		"Modific",
-		"Nodejs",
 		"nodejsLauncher",
 		"Package Control",
 		"Pandoc (Markdown)",
@@ -25,11 +17,10 @@
 		"SFTP",
 		"SideBarEnhancements",
 		"sublime-github",
-		"Sublime-JSHint",
-		"sublimelint",
 		"SublimeLinter",
 		"SublimeTODO",
 		"Tag",
+		"Theme - Spacegray",
 		"ZenCoding"
 	]
 }
