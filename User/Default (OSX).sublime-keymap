@@ -1,4 +1,5 @@
 [
   { "keys": ["super+shift+m"], "command": "marked" },
-  { "keys": ["super+ctrl+s"], "command": "alignment" }
+  { "keys": ["super+ctrl+s"], "command": "alignment" },
+  {"keys": ["ctrl+alt+."], "command": "js_format"}
 ]

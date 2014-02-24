@@ -1,6 +1,6 @@
 {
-  "jshint_options": 
-  
+  "jshint_options":
+
 {
   "predef": [
     "window",
@@ -21,12 +21,13 @@
     "$",
     "jQuery",
     "describe",
-    "define"
+    "define",
+    "document"
   ],
-
   "evil": false,
   "node": true,
   "es5": true,
+  "esnext": true,
   "bitwise": true,
   "curly": true,
   "eqeqeq": true,

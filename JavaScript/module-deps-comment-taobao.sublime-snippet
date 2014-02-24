@@ -2,11 +2,11 @@
   <content><![CDATA[
 /*!
  * ${1:project} - ${2:module}
- * Copyright(c) 2012 Taobao.com
- * Author: suqian.yf <suqian.yf@taobao.com>
+ * Copyright(c) 2014 Taobao.com
+ * Author: busi.hyy <busi.hyy@taobao.com>
  */
 
-"use strict";
+'use strict';
 
 /**
  * Module dependencies.
