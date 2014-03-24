@@ -1,6 +1,6 @@
-# Processing Bundle for Sublime Text 2
+# Processing Bundle for Sublime Text
 
-A [Processing](http://processing.org/) bundle for [Sublime Text 2](http://www.sublimetext.com/2). Check the [demo video](https://vimeo.com/45573600) on vimeo!
+A [Processing](http://processing.org/) bundle for [Sublime Text 2 and 3](http://www.sublimetext.com/). Check the [demo video](https://vimeo.com/45573600) on vimeo!
 Please note: you must have at least (>=Processing 2.0b6), otherwise the buildsystem of the this bundle won't work. The video is a bit outdated, you don't have to run any longer the Processing.app in parallel to run sketches. If you have to stick for some reason to an old Processing verion e.g. 1.5.1 you can use the [old version](https://github.com/b-g/processing-sublime/tags) of this bundle.
 
 [<img src="https://github.com/b-g/processing-sublime/raw/master/Images/overview.png">](https://vimeo.com/45573600)
@@ -33,18 +33,18 @@ or write a seperate build system as documented in this [comment](https://github.
 There are 3 easy ways to install the Processing Bundle:
 
 ### Using Sublime Package Control
-If you are using [Sublime Package Control](http://wbond.net/sublime_packages/package_control), you can easily install the Processing Bundle via the `Sublime Text 2 -> Preferences -> Package Control: Install Package` menu item.
+If you are using [Sublime Package Control](http://wbond.net/sublime_packages/package_control), you can easily install the Processing Bundle via the `Sublime Text -> Preferences -> Package Control: Install Package` menu item.
 
 ### Using Git
-Alternatively you can install the theme and keep up to date by cloning the repo directly into your `Packages` directory in the Sublime Text 2 application settings area.
+Alternatively you can install the theme and keep up to date by cloning the repo directly into your `Packages` directory in the Sublime Text application settings area.
 
-Go to your Sublime Text 2 `Packages` directory and clone the theme repository using the command below:
+Go to your Sublime Text `Packages` directory and clone the theme repository using the command below:
 `git clone https://github.com/b-g/processing-sublime/ "Processing"`
 
 ### Download Manually
 - Download the files using the GitHub .zip download option
 - Unzip the files and rename the folder to `Processing`
-- Copy the folder to your Sublime Text 2 `Packages` directory e.g. OS X: `~/Library/Application Support/Sublime Text 2/Packages/Processing`
+- Copy the folder to your Sublime Text `Packages` directory e.g. OS X: `~/Library/Application Support/Sublime Text 2/Packages/Processing`
 
 ## Usage
 - Select in Sublime Text the Processing buildsystem: `Tools -> Build system -> Processing`
