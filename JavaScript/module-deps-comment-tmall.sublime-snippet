@@ -2,8 +2,8 @@
   <content><![CDATA[
 /*!
  * ${1:project} - ${2:module}
- * Copyright(c) 2014 Taobao.com
- * Author: busi.hyy <busi.hyy@taobao.com>
+ * Copyright(c) 2014 Tmall.com
+ * Author: busi.hyy <busi.hyy@alibaba-inc.com>
  */
 
 'use strict';
@@ -16,7 +16,7 @@ var ${3:varname} = require('${4:modulename}');
 
 ]]></content>
   <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-  <tabTrigger>moduleheader_taobao</tabTrigger>
+  <tabTrigger>moduleheader_tmall</tabTrigger>
   <!-- Optional: Set a scope to limit where the snippet will trigger -->
   <!-- <scope>source.python</scope> -->
 </snippet>

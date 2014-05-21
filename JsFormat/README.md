@@ -77,7 +77,7 @@ The default key binding is "ctrl+alt+f"
 Unfortunately there are other plugins that use "ctrl + alt + f", this is a hard problem to solve. If JsFormat works
 OK via the command palette but does nothing when you use the "ctrl + alt + f" shortcut, you have two options:
 
-1. Add ```{ "keys": ["ctrl+alt+f"], "command": "js_format"}``` to your user keybindings file. This will override anything specifid by a plugin.
+1. Add ```{ "keys": ["ctrl+alt+f"], "command": "js_format"}``` to your user keybindings file. This will override anything specified by a plugin.
 2. Find the offending plugin, and change the shortcut in its sublime-keymap file (will revert on updates)
 
 
@@ -107,7 +107,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/jdc0589/jsformat/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
