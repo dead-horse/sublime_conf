@@ -81,7 +81,7 @@
             "style": "single_quote",
             "scopes": ["string"],
             "language_filter": "blacklist",
-            "language_list": ["Plain text"],
+            "language_list": ["Plain text", "Hex"],
             "sub_bracket_search": "true",
             "enabled": true
         },
@@ -92,7 +92,7 @@
             "style": "double_quote",
             "scopes": ["string"],
             "language_filter": "blacklist",
-            "language_list": ["Plain text"],
+            "language_list": ["Plain text", "Hex"],
             "sub_bracket_search": "true",
             "enabled": true
         },
@@ -170,7 +170,7 @@
             "scope_exclude": ["string", "comment"],
             "scope_exclude_exceptions": ["text.tex string.other.math"],
             "language_filter": "blacklist",
-            "language_list": ["Plain text"],
+            "language_list": ["Plain text", "Hex"],
             "find_in_sub_search": "true",
             "ignore_string_escape": true,
             "enabled": true
@@ -183,7 +183,7 @@
             "scope_exclude_exceptions": ["text.tex string.other.math"],
             "scope_exclude": ["string", "comment", "punctuation.definition.case-pattern.shell"],
             "language_filter": "blacklist",
-            "language_list": ["Plain text"],
+            "language_list": ["Plain text", "Hex"],
             "find_in_sub_search": "true",
             "ignore_string_escape": true,
             "enabled": true
@@ -196,7 +196,7 @@
             "scope_exclude": ["string", "comment"],
             "scope_exclude_exceptions": ["text.tex string.other.math"],
             "language_filter": "blacklist",
-            "language_list": ["Plain text"],
+            "language_list": ["Plain text", "Hex"],
             "find_in_sub_search": "true",
             "ignore_string_escape": true,
             "enabled": true
@@ -324,16 +324,36 @@
         //Bash
         {
             "name": "bash",
-            "open": "(?:(?<!\\\\\\n)(?:;|^)\\s*)\\b(if|case|while|select|until|for)\\s",
-            "close": "(?:(?<!\\\\\\n)(?:;|^)\\s*)\\b(fi|esac|done)(?:\\s|$)",
+            "open": "(?:(?<!\\\\\\n)(?:;|^|&|\\|)\\s*)\\b(if|case|while|select|until|for)\\s",
+            "close": "(?:(?<!\\\\\\n)(?:;|^)\\s*)\\b(fi|esac|done)(?=;|\\s|$)",
             "style": "default",
             "scope_exclude": ["string", "comment"],
             "plugin_library": "bh_modules.bashsupport",
             "language_filter": "whitelist",
             "language_list": ["Shell-Unix-Generic"],
             "enabled": true
+        },
+        //Fish shell
+        {
+            "name": "fish",
+            "open": "(?:(?<!\\\\\\n)(?:;|^|&|\\||and|or|not)\\s*)\\b(begin|if|while|for|switch|function)(?:;|\\s)",
+            "close": "(?:(?<!\\\\\\n)(?:;|^)\\s*)\\b(end)(?=;|\\s|$)",
+            "style": "default",
+            "scope_exclude": ["string", "comment"],
+            "language_filter": "whitelist",
+            "language_list": ["fish"],
+            "enabled": true
         }
     ],
+
+    // user_scope_brackets and user_brackets will be appended
+    // to the tail of scope_brackets and brackets respectively
+    // If you have custom rules that you don't want to commit to
+    // the offial list, and do not need to be inserted before
+    // one of the offical defintions, this is a good place to
+    // put yours rules and keep in sync with the defaults.
+    "user_scope_brackets": [],
+    "user_brackets": [],
 
     // Define region highlight styles
     "bracket_styles": {
