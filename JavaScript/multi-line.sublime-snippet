@@ -1,6 +1,6 @@
 <snippet>
   <content><![CDATA[
-multiline(function () {/*
+multiline(function () {;/*
   ${1:content}
 */});
 ]]></content>
