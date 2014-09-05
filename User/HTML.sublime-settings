@@ -1,6 +1,7 @@
 {
 	"extensions":
 	[
-		"ntpl"
+		"ntpl",
+    "xtpl"
 	]
 }
