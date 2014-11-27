@@ -28,6 +28,7 @@ def add_lib_path(lib_path):
 # crazyness to get jsbeautifier.unpackers to actually import
 # with sublime's weird hackery of the path and module loading
 add_lib_path(libs_path)
+add_lib_path(os.path.join(libs_path, "six-1.8.0"))
 add_lib_path(os.path.join(libs_path, "jsbeautifier"))
 add_lib_path(os.path.join(libs_path, "jsbeautifier", "jsbeautifier"))
 add_lib_path(src_path)
@@ -49,8 +50,13 @@ class PreSaveFormatListner(sublime_plugin.EventListener):
 	"""Event listener to run JsFormat during the presave event"""
 	def on_pre_save(self, view):
 		if(s.get("format_on_save") == True and jsf_activation.is_js_buffer(view)):
+			# only auto-format on save if there are no "lint errors"
+			# here are some named regions from sublimelint see https://github.com/lunixbochs/sublimelint/tree/st3
+			lints_regions = ['lint-keyword-underline', 'lint-keyword-outline']
+			for linter in lints_regions:
+				if len(view.get_regions(linter)):
+					return
 			view.run_command("js_format")
-
 
 class JsFormatCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
